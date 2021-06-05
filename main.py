@@ -1,11 +1,11 @@
 import matplotlib.pyplot as mpl
 
 
-def lotka_volterra1(x0, y0, h, end, a, b, c, d, e=0, f=0):
+def lotka_volterra1(x0, y0, step, end, a, b, c, d, e=0, f=0, g=0, h=0):
     '''
     :param x0: Preys amount
     :param y0: Predator amount
-    :param h: step
+    :param step: step
     :param end: endpoint
     :param a: is the growing rate of preys, when there's no predator
     :param b: is the dying rate of preys, due to predation
@@ -13,14 +13,16 @@ def lotka_volterra1(x0, y0, h, end, a, b, c, d, e=0, f=0):
     :param d: is the factor describing how many caught preys let create a new predator
     :param e: prey competition factor
     :param f: predator competition factor
+    :param g: environment capacity factor for preys
+    :param h: environment capacity factor for predators
     :return:
     '''
 
     def fun_x(x, y):
-        return (a - b * y) * x - e * x
+        return (a - b * y) * x - e * x - g*x**2
 
     def fun_y(x, y):
-        return (c * x - d) * y - f * y
+        return (c * x - d) * y - f * y - h*y**2
 
     t_arg = []
     x_val = []
@@ -31,16 +33,16 @@ def lotka_volterra1(x0, y0, h, end, a, b, c, d, e=0, f=0):
     y_curr = y0
     while t_curr < end:
         y_prev = y_curr
-        y_curr = y_prev + h * fun_y(x_curr, y_curr)
+        y_curr = y_prev + step * fun_y(x_curr, y_curr)
 
         x_prev = x_curr
-        x_curr = x_prev + h * fun_x(x_curr, y_curr)
+        x_curr = x_prev + step * fun_x(x_curr, y_curr)
 
         y_val.append(y_curr)
         x_val.append(x_curr)
         t_arg.append(t_curr)
 
-        t_curr += h
+        t_curr += step
 
     mpl.plot(t_arg, x_val, label="preys")
     mpl.plot(t_arg, y_val, label="predators")

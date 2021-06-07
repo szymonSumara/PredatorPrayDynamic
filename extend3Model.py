@@ -27,7 +27,6 @@ class extend3Model:
                 ("K2",lambda x:self.setK2(x),20),
                 ("R1",lambda x:self.setR1(x),1.1),
                 ("R2",lambda x:self.setR2(x),2),
-                
                 ("End",lambda x:self.setEnd(x),20)]
 
 
@@ -61,7 +60,7 @@ class extend3Model:
         t_curr = 0
         x_curr = self.x0
         y_curr = self.y0
-        while t_curr < self.end:
+        while t_curr < self.End:
             y_prev = y_curr
             y_curr = y_prev + step * self.fun_y(x_curr, y_curr)
 

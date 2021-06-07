@@ -26,7 +26,6 @@ class extend2Model:
                 ("B",lambda y:self.setB(y),0.3),
                 ("C",lambda x:self.setC(x),0.2),
                 ("D",lambda x:self.setD(x),0.3),
-                ("C",lambda x:self.setC(x),0.2),
                 ("G",lambda x:self.setG(x),0),
                 ("H",lambda x:self.setH(x),0),
                 ("Zakres:",lambda x:self.setEnd(x),100)]

@@ -30,15 +30,30 @@ class ModelControls(QWidget):
             
             nameLabel = QLabel()
             nameLabel.setText(fieldLabel)
-            newLine = QLineEdit()
-            newLine.setText(str(defoultValue))
+            newLine = QSlider(Qt.Horizontal)
+            newLine.setMinimum(0)
+            if defoultValue < 1:
+                newLine.setMaximum(100)
+                newLine.setTickInterval(5)
+            elif defoultValue < 10:
+                newLine.setMaximum(1000)
+                newLine.setTickInterval(50)
+            elif defoultValue <= 100:
+                newLine.setMaximum(10000)
+                newLine.setTickInterval(500)
+
+
+            newLine.setValue(defoultValue*100)
+            newLine.setTickPosition(QSlider.TicksBelow)
+            
+
             row = QHBoxLayout()
             row.addWidget(nameLabel)
             row.addWidget(newLine)
             
             layout.addLayout(row)
             layout.addStretch()
-            self.dataColectors.append(lambda func=setLambda,field = newLine :func(field.text()))
+            self.dataColectors.append(lambda func=setLambda,field = newLine :func(field.value()/100))
 
         self.runButton = QPushButton('Uruchom')
         self.runButton.clicked.connect(lambda : self.runAction())

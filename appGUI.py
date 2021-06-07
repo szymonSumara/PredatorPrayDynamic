@@ -15,32 +15,37 @@ class ModelControls(QWidget):
         self. updatePlotData = updatePlotData
         self.model = model
         layout = QVBoxLayout()
-        layout.addStretch()
+        
         
         label = QLabel(self)
         pixmap = QPixmap(self.model.imagePath)
+        #pixmap = pixmap.scaledToWidth(600)
         label.setPixmap(pixmap)
         label.resize( pixmap.width(), pixmap.height())
         label.setAlignment(Qt.AlignCenter)
         layout.addWidget(label,0)
+        layout.addStretch()
     
-        for label,setLambda in model.getParametersSeters():
+        for fieldLabel,setLambda,defoultValue in model.getParametersSeters():
             
             nameLabel = QLabel()
-            nameLabel.setText(label)
+            nameLabel.setText(fieldLabel)
             newLine = QLineEdit()
-            
+            newLine.setText(str(defoultValue))
             row = QHBoxLayout()
             row.addWidget(nameLabel)
             row.addWidget(newLine)
-
+            
             layout.addLayout(row)
+            layout.addStretch()
             self.dataColectors.append(lambda func=setLambda,field = newLine :func(field.text()))
 
         self.runButton = QPushButton('Uruchom')
         self.runButton.clicked.connect(lambda : self.runAction())
         
         layout.addWidget(self.runButton,0)
+        layout.addStretch()
+
         self.setLayout(layout)
 
     def runAction(self):
@@ -56,9 +61,8 @@ class AppGUI(QWidget):
         self.title = 'Predator Pray'
         self.left = 10
         self.top = 10
-        self.width = 1300
-        self.height = 800
-        self.setFixedWidth(1300)
+
+        self.setFixedWidth(1600)
         self.setFixedHeight(800)
         self.actualSelectedModel = None
         self.initUI()
@@ -81,12 +85,14 @@ class AppGUI(QWidget):
         self.modelsList.activated.connect(self.changeActualSelectedModel)
 
         self.controlBox.addWidget(self.modelsList,0)     
-        self.controlBox.addStretch()
+       
        
         self.appBox.addLayout(self.canvasBox,2)
         self.appBox.addLayout( self.controlBox,1)
+        self.controlBox.addStretch()
         self.setLayout(self.appBox)       
         self.show()
+        self.changeActualSelectedModel()
 
     def updatePlotData(self,newDataToShow):
         self._static_ax.cla()
@@ -104,8 +110,10 @@ class AppGUI(QWidget):
             self.actualSelectedModel.deleteLater()
             self.actualSelectedModel = None
         self.actualSelectedModel = ModelControls(model, self.updatePlotData)
+       
         self.controlBox.addWidget(self.actualSelectedModel)
-
+        self.controlBox.addStretch()
+       
 class App:
     def __init__(self,models):
         app = QApplication(sys.argv)

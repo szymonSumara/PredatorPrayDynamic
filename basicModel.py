@@ -51,7 +51,7 @@ class basicModel:
         :param h: environment capacity factor for predators
         :return:
         '''
-        step = 0.01
+        step = 0.001
 
         t_arg = []
         x_val = []

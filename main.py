@@ -111,4 +111,4 @@ def lotka_volterra2(x0, y0, h, end, K1, K2, a, b, r1, r2):
 
 
 if __name__ == '__main__':
-    lotka_volterra2(10,10, 0.01, 20, 50, 20, 1.2, 1.0, 1.1, 1.05)
+    lotka_volterra2(10, 10, 0.01, 20, 100, 50, 0.5, 0.1, 1.1, 2)
